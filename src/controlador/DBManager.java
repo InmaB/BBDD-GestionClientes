@@ -1,3 +1,4 @@
+package controlador;
 
 
 import java.sql.DriverManager;
@@ -8,62 +9,36 @@ import java.sql.ResultSet;
 
 /**
  *
- * @author lionel
+ * @author Inma Balbuena
  */
 public class DBManager {
 
     // Conexión a la base de datos
     private static Connection conn = null;
-
-    /* puede pedir modifica el programa para que pueda ser utilizado en cualquier tabla y bbdd
-   el cambio habría q hacer es cambiar las constantes */
     
     // Configuración de la conexión a la base de datos
     private static final String DB_HOST = "localhost";
     private static final String DB_PORT = "3306";
-    private static final String DB_NAME = "tienda"; //despues de la modificacion esto desaparece o tocarlo
+    private static final String DB_NAME = "tienda"; 
     private static final String DB_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME + "?serverTimezone=UTC";
     private static final String DB_USER = "root";
     private static final String DB_PASS = "";
     private static final String DB_MSQ_CONN_OK = "CONEXIÓN CORRECTA";
     private static final String DB_MSQ_CONN_NO = "ERROR EN LA CONEXIÓN";
 
-    // Configuración de la tabla Clientes (DICHO POR PACO ESTO TIENE Q APARECER POR UN PREPAREDSTATEMENT)
+    // Configuración de la tabla Clientes 
     private static final String DB_CLI = "clientes"; //despues de la modificicacion esto desaparece o tocarlo
     private static final String DB_CLI_SELECT = "SELECT * FROM " + DB_CLI;
     private static final String DB_CLI_ID = "id";
     private static final String DB_CLI_NOM = "nombre";
     private static final String DB_CLI_DIR = "direccion";
     
-    //poner \t para alinear o formatear la salida de datos
-    
-    // LOS PUEDO PONER EN UN ARRAYLIST O ALGO PARECIDO (PORQUE NO SABRÉ CUÁNTOS ATRIBUTOS
-    //TENDRÁ LAS TABLAS
 
     //////////////////////////////////////////////////
     // MÉTODOS DE CONEXIÓN A LA BASE DE DATOS
     //////////////////////////////////////////////////
-    ;
     
-    /**
-     * Intenta cargar el JDBC driver.
-     * @return true si pudo cargar el driver, false en caso contrario
-     */
-    public static boolean loadDriver() {
-        try {
-            System.out.print("Cargando Driver...");
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            System.out.println("OK!");
-            return true;
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-            return false;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
-
+    
     /**
      * Intenta conectar con la base de datos.
      *

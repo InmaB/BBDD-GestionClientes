@@ -1,15 +1,15 @@
+package controlador;
 
 import java.util.Scanner;
 
 /**
  *
- * @author lionel
+ * @author Inma Balbuena
  */
 public class GestionClientes {
 
     public static void main(String[] args) {
 
-        DBManager.loadDriver();
         DBManager.connect();
 
         boolean salir = false;

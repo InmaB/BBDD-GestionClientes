@@ -1,7 +1,10 @@
+package vista;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+
+import controlador.DBManager;
 
 public class GestionClientesIGU extends javax.swing.JFrame {
 
@@ -14,7 +17,7 @@ public class GestionClientesIGU extends javax.swing.JFrame {
         initComponents();
 
         // Cargamos driver y conectamos con la BD
-        DBManager.loadDriver();
+
         DBManager.connect();
 
         // Obtenemos el ResultSet de clientes y mostramos el primero
