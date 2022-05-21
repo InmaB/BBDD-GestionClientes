@@ -7,6 +7,8 @@ import java.util.Scanner;
  * @author Inma Balbuena
  */
 public class GestionClientes {
+	
+	public static Scanner ent = new Scanner(System.in);
 
     public static void main(String[] args) {
 
@@ -29,8 +31,6 @@ public class GestionClientes {
         System.out.println("3. Modificar cliente");
         System.out.println("4. Eliminar cliente");
         System.out.println("5. Salir");
-        
-        Scanner in = new Scanner(System.in);
             
         int opcion = pideInt("Elige una opción: ");
         
@@ -61,9 +61,8 @@ public class GestionClientes {
         while(true) {
             try {
                 System.out.print(mensaje);
-                Scanner in = new Scanner(System.in);
-                int valor = in.nextInt();
-                //in.nextLine();
+                int valor = ent.nextInt();
+                //ent.nextLine();
                 return valor;
             } catch (Exception e) {
                 System.out.println("No has introducido un número entero. Vuelve a intentarlo.");
@@ -76,8 +75,7 @@ public class GestionClientes {
         while(true) {
             try {
                 System.out.print(mensaje);
-                Scanner in = new Scanner(System.in);
-                String linea = in.nextLine();
+                String linea = ent.nextLine();
                 return linea;
             } catch (Exception e) {
                 System.out.println("No has introducido una cadena de texto. Vuelve a intentarlo.");
@@ -91,7 +89,6 @@ public class GestionClientes {
     }
 
     public static void opcionNuevoCliente() {
-        Scanner in = new Scanner(System.in);
 
         System.out.println("Introduce los datos del nuevo cliente:");
         String nombre = pideLinea("Nombre: ");
@@ -107,7 +104,6 @@ public class GestionClientes {
     }
 
     public static void opcionModificarCliente() {
-        Scanner in = new Scanner(System.in);
 
         int id = pideInt("Indica el id del cliente a modificar: ");
 
@@ -135,7 +131,6 @@ public class GestionClientes {
     }
 
     public static void opcionEliminarCliente() {
-        Scanner in = new Scanner(System.in);
 
         int id = pideInt("Indica el id del cliente a eliminar: ");
 
