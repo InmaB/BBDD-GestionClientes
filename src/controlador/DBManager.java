@@ -20,7 +20,7 @@ public class DBManager {
     private static final String DB_HOST = "localhost";
     private static final String DB_PORT = "3306";
     private static final String DB_NAME = "tienda"; 
-    private static final String DB_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME + "?serverTimezone=UTC";
+    private static final String DB_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + "?serverTimezone=UTC";
     private static final String DB_USER = "root";
     private static final String DB_PASS = "";
     private static final String DB_MSQ_CONN_OK = "CONEXIÓN CORRECTA";
@@ -37,24 +37,27 @@ public class DBManager {
     //////////////////////////////////////////////////
     // MÉTODOS DE CONEXIÓN A LA BASE DE DATOS
     //////////////////////////////////////////////////
-    
-    
+
     /**
      * Intenta conectar con la base de datos.
      *
      * @return true si pudo conectarse, false en caso contrario
+     * @throws ClassNotFoundException 
      */
-    public static boolean connect() {
+    public static boolean connect() throws ClassNotFoundException {
         try {
             System.out.print("Conectando a la base de datos...");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
             System.out.println("OK!");
             return true;
         } catch (SQLException ex) {
-            ex.printStackTrace();
+        	System.out.println("NO se ha podido establecer la conexión");
+            ex.printStackTrace(); //no hace falta en el resultado final, ya que esto es para nosotros para ver los errores
             return false;
         }
     }
+
 
     /**
      * Comprueba la conexión y muestra su estado por pantalla
@@ -90,11 +93,27 @@ public class DBManager {
         }
     }
 
-    //////////////////////////////////////////////////
-    // MÉTODOS DE TABLA CLIENTES
-    //////////////////////////////////////////////////
-    ;
-    
+
+    /** 
+     * Mostrar las bases de datos disponibles
+     * @throws SQLException
+     */
+public static void mostrarBaseDatos() throws SQLException {
+	 //Creating a Statement object
+    Statement stmt = conn.createStatement();
+    //Retrieving the data
+    ResultSet rs = stmt.executeQuery("Show Databases");
+    System.out.println("Lista de las bases de datos: ");
+    while(rs.next()) {
+       System.out.print(rs.getString(1));
+       System.out.println();
+    }
+}
+
+//////////////////////////////////////////////////
+// MÉTODOS DE TABLA CLIENTES
+//////////////////////////////////////////////////
+
     // Devuelve 
     // Los argumentos indican el tipo de ResultSet deseado
     /**
