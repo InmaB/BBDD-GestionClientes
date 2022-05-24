@@ -7,6 +7,7 @@
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.4
 
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -26,7 +27,7 @@ SET time_zone = "+00:00";
 --
 -- Estructura de tabla para la tabla `clientes`
 --
-
+CREATE database TIENDA; 
 CREATE TABLE `clientes` (
   `id` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL,
@@ -72,3 +73,12 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+-- Procedimiento almacenado
+DELIMITER $$
+DROP PROCEDURE IF EXISTS ordenar_clientes$$
+CREATE PROCEDURE ordenar_clientes()
+BEGIN
+SELECT nombre from clientes order by 1;
+END
+$$

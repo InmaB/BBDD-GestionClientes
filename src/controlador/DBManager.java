@@ -3,6 +3,7 @@ package controlador;
 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -21,9 +22,9 @@ public class DBManager {
 	// Configuración de la conexión a la base de datos
 	private static final String DB_HOST = "localhost";
 	private static final String DB_PORT = "3306";
-    private static final String DB_NAME = "tienda"; //despues de la modificacion esto desaparece o tocarlo
-    private static final String DB_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME + "?serverTimezone=UTC";
-	 private static final String DB_URLEleccion = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + "?serverTimezone=UTC";
+	private static final String DB_NAME = "tienda"; //despues de la modificacion esto desaparece o tocarlo
+	private static final String DB_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME + "?serverTimezone=UTC";
+	private static final String DB_URLEleccion = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + "?serverTimezone=UTC";
 	private static final String DB_USER = "root";
 	private static final String DB_PASS = "";
 	private static final String DB_MSQ_CONN_OK = "CONEXIÓN CORRECTA";
@@ -117,33 +118,33 @@ public class DBManager {
 	 * @throws ClassNotFoundException
 	 */
 	public static void usarBBDD() throws ClassNotFoundException {
-	
-			Scanner ent = new Scanner (System.in);
-			String nombre = "";
-			System.out.println("¿A qué base de datos quiere conectarse?");
-			nombre=ent.nextLine();
-			
-			try {
-				
-				System.out.print("Conectando a la base de datos...");
-				Class.forName("com.mysql.cj.jdbc.Driver");
-				conn = DriverManager.getConnection("jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + nombre + "?serverTimezone=UTC", DB_USER, DB_PASS);
-				System.out.println("OK!");
-				
-			} catch (SQLException ex) {
-				System.out.println("No se ha podido establecer la conexión");
-				ex.printStackTrace(); //no hace falta en el resultado final, ya que esto es para nosotros para ver los errores
-				
-			} finally {
+
+		Scanner ent = new Scanner (System.in);
+		String nombre = "";
+		System.out.println("¿A qué base de datos quiere conectarse?");
+		nombre=ent.nextLine();
+
+		try {
+
+			System.out.print("Conectando a la base de datos...");
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + nombre + "?serverTimezone=UTC", DB_USER, DB_PASS);
+			System.out.println("OK!");
+
+		} catch (SQLException ex) {
+			System.out.println("No se ha podido establecer la conexión");
+			ex.printStackTrace(); //no hace falta en el resultado final, ya que esto es para nosotros para ver los errores
+
+		} finally {
 			ent.next(); //limpiar buffer
-			}
-		
-	
+		}
+
+
 
 	}
-	
-		
-			
+
+
+
 
 	//////////////////////////////////////////////////
 	// MÉTODOS DE TABLA CLIENTES
@@ -160,7 +161,7 @@ public class DBManager {
 	public static ResultSet getTablaClientes(int resultSetType, int resultSetConcurrency) {
 		try {
 			PreparedStatement stmt = conn.prepareStatement(DB_CLI_SELECT, resultSetType, resultSetConcurrency);
-            ResultSet rs = stmt.executeQuery();
+			ResultSet rs = stmt.executeQuery();
 			return rs;
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -211,10 +212,10 @@ public class DBManager {
 		try {
 			// Realizamos la consulta SQL
 			String sql = DB_CLI_SELECT + " WHERE " + DB_CLI_ID + "= ? ;";
-            PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			//System.out.println(sql);
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
+			stmt.setInt(1, id);
+			ResultSet rs = stmt.executeQuery();
 			//stmt.close();
 
 			// Si no hay primer registro entonces no existe el cliente
@@ -391,6 +392,23 @@ public class DBManager {
 			ex.printStackTrace();
 			return false;
 		}
+	}
+
+	/**
+	 * Metodo con CallableStatement para ordenar clientes
+	 * @throws SQLException
+	 */
+	public static void ordenarClientes() throws SQLException
+	{
+		String sentenciaSQL = "{call ordenar_clientes()}";
+		CallableStatement stmt = conn.prepareCall(sentenciaSQL);
+		ResultSet rs = stmt.executeQuery();
+
+		while (rs.next()) 
+		{  
+			System.out.println(rs.getString(1));  
+		} 
+
 	}
 
 }
