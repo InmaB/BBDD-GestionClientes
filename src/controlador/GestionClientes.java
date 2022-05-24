@@ -13,15 +13,20 @@ public class GestionClientes {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
-    
+    	
         DBManager.connect();
+  //      DBManager.mostrarBaseDatos(); //llamada al metodo 
+  //    DBManager.usarBBDD(); //llamada al metodo de usar base de datos que el usuario ha elegido
 
         boolean salir = false;
         do {
             salir = menuPrincipal();
         } while (!salir);
 
+
         DBManager.close();
+        
+        
 
     }
     
@@ -29,7 +34,6 @@ public class GestionClientes {
     public static boolean menuPrincipal() throws SQLException {
         System.out.println("");
         System.out.println("MENU PRINCIPAL");
-        System.out.println("0. Mostrar Base de datos");
         System.out.println("1. Listar clientes");
         System.out.println("2. Nuevo cliente");
         System.out.println("3. Modificar cliente");
@@ -39,9 +43,6 @@ public class GestionClientes {
         int opcion = pideInt("Elige una opción: ");
         
         switch (opcion) {
-        case 0:
-            DBManager.mostrarBaseDatos();
-            return false;
         
             case 1:
                 opcionMostrarClientes();
