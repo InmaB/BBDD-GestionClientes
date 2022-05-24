@@ -11,7 +11,7 @@ public class GestionClientesIGU extends javax.swing.JFrame {
     private ResultSet rsClientes;
     private boolean clienteValido = false;
 
-    public GestionClientesIGU() {
+    public GestionClientesIGU() throws ClassNotFoundException {
 
         // Inicilización de componentes gráficos
         initComponents();
@@ -700,7 +700,12 @@ public class GestionClientesIGU extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GestionClientesIGU().setVisible(true);
+                try {
+					new GestionClientesIGU().setVisible(true);
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
     }
