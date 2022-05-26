@@ -3,12 +3,16 @@ package controlador;
 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.io.File;
+import java.io.FileWriter;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.Scanner;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 
 /**
  *
@@ -398,17 +402,60 @@ public class DBManager {
 	 * Metodo con CallableStatement para ordenar clientes
 	 * @throws SQLException
 	 */
-	public static void ordenarClientes() throws SQLException
-	{
+	public static void ordenarClientes() throws SQLException {
 		String sentenciaSQL = "{call ordenar_clientes()}";
 		CallableStatement stmt = conn.prepareCall(sentenciaSQL);
 		ResultSet rs = stmt.executeQuery();
 
-		while (rs.next()) 
-		{  
+		while (rs.next()) {  
 			System.out.println(rs.getString(1));  
 		} 
 
 	}
+	
+	/**
+	 * Vuelca la tabla a un fichero
+	 */
+	public static void volcarTabla() {
+		try {
+			File archivo = new File("tabla.txt");
+			archivo.createNewFile();
+
+			ResultSet resultado = getTablaClientes();
+			ResultSetMetaData metadatosRs= resultado.getMetaData();
+
+			FileWriter escribir = new FileWriter(archivo);
+
+			// escribire los nombres de las columnas
+			for(int i = 1; i <= metadatosRs.getColumnCount(); i++) {
+				escribir.write(metadatosRs.getColumnName(i) + "\t");
+			}
+
+			//Escribimos una linea separatoria
+			escribir.write("\n ----------------------- \n");
+
+			while (resultado.next()) {
+				for(int i = 1; i <= metadatosRs.getColumnCount(); i++) {
+					//escribirá los datos de tipo varchar
+					if(metadatosRs.getColumnTypeName(i).equals("VARCHAR")) {
+						String texto = resultado.getString(metadatosRs.getColumnName(i));
+						escribir.write(texto + "\t");
+					}
+					//escribirá los datos de tipo int
+					if(metadatosRs.getColumnTypeName(i).equals("INT")) {
+						int entero = resultado.getInt(metadatosRs.getColumnName(i));
+						escribir.write(entero + "\t");
+					}
+				}
+				escribir.write("\n");
+			}
+
+			escribir.close();
+		} catch(Exception e) {
+			System.err.println("ERROR. No se ha podido volcar los datos.");
+    		System.out.println(e.getMessage());
+		}
+	}
+
 
 }

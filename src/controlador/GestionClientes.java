@@ -39,7 +39,8 @@ public class GestionClientes {
         System.out.println("3. Nuevo cliente");
         System.out.println("4. Modificar cliente");
         System.out.println("5. Eliminar cliente");
-        System.out.println("6. Salir");
+        System.out.println("6. Volcar tabla");
+        System.out.println("7. Salir");
             
         int opcion = pideInt("Elige una opción: ");
         
@@ -61,6 +62,9 @@ public class GestionClientes {
                 opcionEliminarCliente();
                 return false;
             case 6:
+            	DBManager.volcarTabla();
+                return false;
+            case 7:
                 return true;
             default:
                 System.out.println("Opción elegida incorrecta");
