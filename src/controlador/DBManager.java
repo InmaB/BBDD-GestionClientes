@@ -1,6 +1,5 @@
 package controlador;
 
-
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.io.File;
@@ -46,6 +45,7 @@ public class DBManager {
 	// MÉTODOS DE CONEXIÓN A LA BASE DE DATOS
 	//////////////////////////////////////////////////
 
+	
 	/**
 	 * Intenta conectar con la base de datos.
 	 *
@@ -65,8 +65,6 @@ public class DBManager {
 			return false;
 		}
 	}
-
-
 
 	/**
 	 * Comprueba la conexión y muestra su estado por pantalla
@@ -129,7 +127,6 @@ public class DBManager {
 		nombre=ent.nextLine();
 
 		try {
-
 			System.out.print("Conectando a la base de datos...");
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + nombre + "?serverTimezone=UTC", DB_USER, DB_PASS);
@@ -137,13 +134,10 @@ public class DBManager {
 
 		} catch (SQLException ex) {
 			System.out.println("No se ha podido establecer la conexión");
-			ex.printStackTrace(); //no hace falta en el resultado final, ya que esto es para nosotros para ver los errores
 
 		} finally {
 			ent.next(); //limpiar buffer
 		}
-
-
 
 	}
 
@@ -218,7 +212,6 @@ public class DBManager {
 			//System.out.println(sql);
 			stmt.setInt(1, id);
 			ResultSet rs = stmt.executeQuery();
-			//stmt.close();
 
 			// Si no hay primer registro entonces no existe el cliente
 			if (!rs.first()) {
@@ -229,7 +222,6 @@ public class DBManager {
 			return rs;
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
 			return null;
 		}
 	}
@@ -408,7 +400,6 @@ public class DBManager {
 		while (rs.next()) {  
 			System.out.println(rs.getString(1));  
 		} 
-
 	}
 	
 	/**
@@ -476,9 +467,60 @@ public class DBManager {
 		} catch(SQLException ex) {
 			System.out.println("Error al crear la tabla o no se puede realizar la operación porque ya existe " +ex);
 		}
-		
-		
 	}
 
+	/**
+	 * Filtrar por filas
+	 * @param campo
+	 * @param texto
+	 * @return
+	 */
+	public static ResultSet conseguirFila(String campo, String texto) {
+		try {			        	
+			String consultaSQL = DB_CLI_SELECT +" where " + campo + "= ?;";
+        	PreparedStatement stmt = conn.prepareStatement (consultaSQL, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        	stmt.setString(1, texto);
+        	
+			ResultSet rs = stmt.executeQuery();
+			// Si no hay primer registro entonces no existe el cliente
+			if (!rs.first()) {
+				return null;
+			}
+
+			// Todo bien, devolvemos el cliente
+			return rs;
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**
+	 * Impresion de la fila filtrada
+	 * @param campo
+	 * @param texto
+	 */
+	public static void mostrarFila(String campo, String texto) {
+		try {
+			// Obtenemos el cliente
+			ResultSet rs = conseguirFila(campo, texto);
+			if (rs == null || !rs.first()) {
+				System.out.println("Cliente NO EXISTE");
+				return;
+			}
+
+			// Imprimimos su información por pantalla
+			int cid = rs.getInt(DB_CLI_ID);
+			String nombre = rs.getString(DB_CLI_NOM);
+			String direccion = rs.getString(DB_CLI_DIR);
+			System.out.println("Cliente " + cid + "\t" + nombre + "\t" + direccion);
+
+		} catch (SQLException ex) {
+			System.out.println("Error al solicitar cliente ");
+			ex.printStackTrace();
+		}
+	}
+	
 
 }
