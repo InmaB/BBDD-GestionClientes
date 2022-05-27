@@ -148,8 +148,6 @@ public class DBManager {
 	}
 
 
-
-
 	//////////////////////////////////////////////////
 	// MÉTODOS DE TABLA CLIENTES
 	//////////////////////////////////////////////////
@@ -455,6 +453,31 @@ public class DBManager {
 			System.err.println("ERROR. No se ha podido volcar los datos.");
     		System.out.println(e.getMessage());
 		}
+	}
+	
+	/**
+	 * Creación de una nueva tabla, como por ejemplo la tabla productos
+	 * @param nombre
+	 * @throws SQLException
+	 */
+	public static void crearTabla(String nombre) throws SQLException {
+		String consultaSql="create table " + nombre + 
+				"(codigo_producto int auto_increment, " +
+				"id_cliente int(11) NOT NULL," +
+				"nombre varchar(50) not null, " +
+				"cantidad int unsigned not null," +
+				"primary key (codigo_producto)," +
+				"foreign key (id_cliente) references clientes (id)" +
+				");";
+		Statement stmt = conn.createStatement();
+		
+		try {
+		stmt.execute(consultaSql);
+		} catch(SQLException ex) {
+			System.out.println("Error al crear la tabla o no se puede realizar la operación porque ya existe " +ex);
+		}
+		
+		
 	}
 
 

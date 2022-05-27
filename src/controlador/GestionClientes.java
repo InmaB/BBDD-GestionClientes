@@ -40,7 +40,8 @@ public class GestionClientes {
         System.out.println("4. Modificar cliente");
         System.out.println("5. Eliminar cliente");
         System.out.println("6. Volcar tabla");
-        System.out.println("7. Salir");
+        System.out.println("7. Crear tabla");
+        System.out.println("8. Salir");
             
         int opcion = pideInt("Elige una opción: ");
         
@@ -65,6 +66,10 @@ public class GestionClientes {
             	DBManager.volcarTabla();
                 return false;
             case 7:
+            	DBManager.crearTabla("productos");
+                return false;
+            case 8:
+            	System.out.println("Saliendo del programa");
                 return true;
             default:
                 System.out.println("Opción elegida incorrecta");
@@ -146,7 +151,10 @@ public class GestionClientes {
             System.out.println("Error :(");
         }
     }
-
+    
+    /**
+     * Eliminar cliente
+     */
     public static void opcionEliminarCliente() {
 
         int id = pideInt("Indica el id del cliente a eliminar: ");
