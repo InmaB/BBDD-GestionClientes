@@ -37,6 +37,7 @@ public class GestionClientes {
 		System.out.println("6. Volcar tabla");
 		System.out.println("7. Crear tabla");
 		System.out.println("8. Mostrar fila");
+		System.out.println("9. Salir del programa");
 
 		int opcion = pideInt("Elige una opción: ");
 
