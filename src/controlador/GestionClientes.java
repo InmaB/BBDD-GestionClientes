@@ -75,7 +75,11 @@ public class GestionClientes {
 		}
 
 	}
-
+	/**
+	 * Pide un int
+	 * @param mensaje
+	 * @return
+	 */
 	public static int pideInt(String mensaje){
 
 		while(true) {
@@ -90,11 +94,17 @@ public class GestionClientes {
 		}
 	}
 
+	/**
+	 * Muesta los clientes
+	 */
 	public static void opcionMostrarClientes() {
 		System.out.println("Listado de Clientes:");
 		DBManager.printTablaClientes();
 	}
 
+	/**
+	 * Muestra la fila y pide al usuario campo a rellenar
+	 */
 	public static void opcionMostrarFila() {
 		Scanner ent = new Scanner(System.in); 
 		String campo, texto;
@@ -112,7 +122,9 @@ public class GestionClientes {
 			System.out.println("No has introducido una cadena de texto. Vuelve a intentarlo.");
 		}
 	}
-
+	/**
+	 * Pide al usuario los campos a rellenar del nuevo cliente
+	 */
 	public static void opcionNuevoCliente() {
 		Scanner ent = new Scanner(System.in); 
 		String nombre = "", direccion = "";
@@ -136,7 +148,9 @@ public class GestionClientes {
 			System.out.println("Error :(");
 		}
 	}
-
+	/**
+	 * Pide al usuario los campos para modificar cliente
+	 */
 	public static void opcionModificarCliente() {
 		Scanner ent = new Scanner(System.in); 
 		String nombre = "", direccion = "";
