@@ -9,3 +9,4 @@
 - Volcar los datos de la tabla a un fichero
 - Creación de 2 funciones mostrarBaseDatos() --> muestra las base de datos  y usarBBDD() --> da la opción de conectarse a la BBDD que el usuario elija. Las llamadas a estas funciones se encuentran en modo comentario en el main, son funcionales y las he dejado ahí para en un futuro próximo utilizarlas y completar el proyecto.
 - Pequeños pasos con JUnit
+- Generación de JavaDoc
